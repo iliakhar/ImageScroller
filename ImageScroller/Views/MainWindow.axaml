@@ -1,0 +1,49 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:ImageScroller.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+		MinWidth="820" MinHeight="400"
+        x:Class="ImageScroller.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="ImageScroller"
+		xmlns:model="using:ImageScroller.Models">
+
+
+	<Window.Resources>
+		<model:Converter x:Key="variableImage"/>
+	</Window.Resources>
+	
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+	<Grid ColumnDefinitions="250,*" ShowGridLines="False" MinWidth="500"  Background="#DCDCDC">
+		<TreeView Grid.Column="0" Grid.Row="0" Items="{Binding Items}"
+	   HorizontalAlignment="Stretch" VerticalAlignment="Top" SelectedItem="{Binding SelectItem}">
+			<TreeView.ItemTemplate>
+				<TreeDataTemplate ItemsSource="{Binding Subfolders}">
+					<TextBlock Text="{Binding strNodeText}"/>
+				</TreeDataTemplate>
+			</TreeView.ItemTemplate>
+		</TreeView>
+
+		<Grid Grid.Column="1" ColumnDefinitions="2*,5*,2*" ShowGridLines="False" MinWidth="500" Background="WhiteSmoke">
+			<Button Grid.Column="0" IsEnabled="{Binding IsArrowsEnable}" Command="{Binding MoveToLeft}"
+					HorizontalAlignment="Right" Margin="5">
+				<Image Source="/Assets/arrowL.png" Height="50"/>
+			</Button>
+
+			<Image Grid.Column="1" Source="{Binding Str, Converter={StaticResource variableImage}}" Margin="5" MinHeight="350"
+				   HorizontalAlignment="Stretch" ToolTip.Tip="{Binding Str}"/>
+
+			<Button Grid.Column="2" IsEnabled="{Binding IsArrowsEnable}" Command="{Binding MoveToRight}"
+					 HorizontalAlignment="Left" Margin="5">
+				<Image Source="/Assets/arrowR.png" Height="50"/>
+			</Button>
+		</Grid>
+	</Grid>
+	
+
+</Window>
